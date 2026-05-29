@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "paths": {
+      "@motion-spec/tokens": ["../../packages/tokens/src/index.ts"],
+      "@motion-spec/css":    ["../../packages/css/src/motion-spec.css"]
+    }
+  },
+  "include": ["src"]
+}

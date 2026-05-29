@@ -1,4 +1,4 @@
-import "@motion-spec/css"
+import "../../packages/css/src/motion-spec.css"
 import { useState } from "react"
 
 /**

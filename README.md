@@ -51,11 +51,39 @@ motion-spec fills that gap.
 
 ## Quick Start
 
-### React (copy-paste — you own the code)
+### Clone and run locally
 
 ```bash
-npx motion-spec add entrance
+git clone https://github.com/iamtensaii/motion-spec.git
+cd motion-spec
+
+# Install all dependencies
+pnpm install
+
+# Run the interactive playground (docs site)
+cd apps/docs && pnpm dev
+# → open http://localhost:3000
+
+# Or run the Vite demo
+cd examples/react-vite && pnpm dev
+# → open http://localhost:5173
+
+# Or open the zero-dependency demo directly in your browser
+open examples/before-after/index.html
 ```
+
+### Use the CSS in any project (copy the file)
+
+Copy `packages/css/src/motion-spec.css` into your project, then:
+
+```html
+<link rel="stylesheet" href="motion-spec.css">
+<div data-motion="entrance/focus">...</div>
+```
+
+### React (copy-paste — you own the code)
+
+Copy components from `packages/react/src/components/` into your project.
 
 ```tsx
 import { Entrance } from "@/components/motion/entrance"

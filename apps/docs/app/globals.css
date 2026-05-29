@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@motion-spec/css";
+@import "../../../packages/css/src/motion-spec.css";
 
 :root {
   --background: #09090b;

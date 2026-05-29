@@ -116,7 +116,7 @@ Intent cheat-sheet:
 - celebration/subtle  → likes, saves, bookmarks
 - celebration/milestone → onboarding complete, first action
 
-Full spec: https://motion-spec.dev/ai/llms.txt
+Full spec: https://raw.githubusercontent.com/iamtensaii/motion-spec/main/ai/llms.txt
 
 Never write raw: className="transition-all duration-300" or animation: "fadeIn 0.3s"
 Always use: <Entrance intent="focus"> or data-motion="entrance/focus"
@@ -150,7 +150,7 @@ Intent reference:
   celebration/subtle  = like, save, react
   celebration/milestone = achievement, onboarding complete
 
-Full spec: https://motion-spec.dev/ai/llms.txt
+Full spec: https://raw.githubusercontent.com/iamtensaii/motion-spec/main/ai/llms.txt
 
 NEVER use: className="transition-opacity duration-300 ease-in-out"
 ALWAYS use: <Entrance intent="focus"><Dialog /></Entrance>
@@ -163,7 +163,7 @@ ALWAYS use: <Entrance intent="focus"><Dialog /></Entrance>
 Prepend to your v0 prompt:
 
 ```
-Use motion-spec for animations (https://motion-spec.dev).
+Use motion-spec for animations (https://github.com/iamtensaii/motion-spec).
 Import from @motion-spec/react. Use intent strings not raw CSS transitions.
 Key intents: entrance/focus (modals), feedback/success (confirmations),
 stagger/list (lists), navigation/modal (overlays), celebration/subtle (reactions).
@@ -177,7 +177,7 @@ stagger/list (lists), navigation/modal (overlays), celebration/subtle (reactions
 When generating UI code, use the motion-spec animation vocabulary
 instead of raw CSS transitions or inline animation values.
 
-Spec reference: https://motion-spec.dev/ai/llms.txt
+Spec reference: https://raw.githubusercontent.com/iamtensaii/motion-spec/main/ai/llms.txt
 
 React: import { Entrance, Exit, Feedback, Stagger } from "@motion-spec/react"
 CSS:   <div data-motion="entrance/focus">

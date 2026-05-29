@@ -1,6 +1,6 @@
 # motion-spec — Machine-Readable Spec Summary
 # Version: 1.0.0
-# URL: https://motion-spec.dev
+# URL: https://github.com/iamtensaii/motion-spec
 # For AI code generation tools (Claude Code, Cursor, v0, Lovable, Copilot)
 
 ## What is motion-spec?
@@ -115,6 +115,6 @@ npm install @motion-spec/css
 
 ## Spec source
 
-- Vocabulary: https://github.com/[owner]/motion-spec/blob/main/spec/v1/vocabulary.md
-- Tokens: https://github.com/[owner]/motion-spec/blob/main/spec/v1/tokens.json
-- Schema: https://github.com/[owner]/motion-spec/blob/main/spec/v1/schema.json
+- Vocabulary: https://github.com/iamtensaii/motion-spec/blob/main/spec/v1/vocabulary.md
+- Tokens: https://github.com/iamtensaii/motion-spec/blob/main/spec/v1/tokens.json
+- Schema: https://github.com/iamtensaii/motion-spec/blob/main/spec/v1/schema.json

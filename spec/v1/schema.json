@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://motion-spec.dev/schema/v1",
+  "$id": "https://raw.githubusercontent.com/iamtensaii/motion-spec/main/spec/v1/schema.json",
   "title": "motion-spec Intent",
   "description": "JSON Schema for validating a motion-spec intent string",
   "type": "object",

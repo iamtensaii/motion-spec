@@ -20,7 +20,7 @@ Use intent strings to communicate purpose:
   - stagger/list      for lists and feeds (40ms per item)
   - celebration/subtle for likes, saves, bookmarks
 
-Full reference: https://motion-spec.dev/ai/llms.txt
+Full reference: https://raw.githubusercontent.com/iamtensaii/motion-spec/main/ai/llms.txt
 
 Do NOT use:
   className="transition-all duration-300 ease-in-out"  ← no semantic meaning

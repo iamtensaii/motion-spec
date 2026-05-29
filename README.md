@@ -90,17 +90,118 @@ import { Entrance } from "@/components/motion/entrance"
 </ul>
 ```
 
-### With AI tools (v0, Cursor, Claude Code)
+### With Claude Code
 
-Add to your prompt:
-```
-Use motion-spec semantics for all animations.
-Refer to: https://motion-spec.dev/ai/llms.txt
+Add this to your project's `CLAUDE.md`:
+
+```markdown
+## Animations
+
+Use motion-spec for all UI animations. Install: `npm i @motion-spec/react @motion-spec/css`
+
+Intent cheat-sheet:
+- entrance/focus      → dialogs, modals, alerts (demands attention)
+- entrance/default    → standard component mounting
+- entrance/subtle     → tooltips, sidebars, secondary content
+- exit/dismiss        → user closes a toast, card, or panel
+- feedback/success    → form submit, payment, save confirmed
+- feedback/error      → validation failure, API error (shake animation)
+- feedback/confirm    → button/toggle acknowledgement (scale pulse)
+- feedback/loading    → async operation in progress
+- navigation/modal    → sheets, drawers, bottom sheets
+- navigation/forward  → navigating deeper into hierarchy
+- navigation/back     → returning up
+- stagger/list        → any list or feed of items (40ms per item)
+- stagger/grid        → card grids (30ms per item)
+- celebration/subtle  → likes, saves, bookmarks
+- celebration/milestone → onboarding complete, first action
+
+Full spec: https://motion-spec.dev/ai/llms.txt
+
+Never write raw: className="transition-all duration-300" or animation: "fadeIn 0.3s"
+Always use: <Entrance intent="focus"> or data-motion="entrance/focus"
 ```
 
-AI generates:
+---
+
+### With Cursor
+
+Add to `.cursorrules` in your project root:
+
+```
+# Animations — use motion-spec
+
+Install: npm i @motion-spec/react @motion-spec/css
+
+When generating any UI animation, use motion-spec intent components:
+  import { Entrance, Exit, Feedback, Stagger, NavigationTransition, Celebration } from "@motion-spec/react"
+
+Intent reference:
+  entrance/focus      = dialogs, modals, anything demanding attention
+  entrance/default    = standard mounting
+  entrance/subtle     = tooltips, popovers
+  exit/dismiss        = user-initiated close
+  feedback/success    = positive outcome (spring bounce)
+  feedback/error      = failure state (horizontal shake)
+  feedback/confirm    = button/action press acknowledgement
+  navigation/modal    = sheet, drawer, overlay
+  navigation/forward  = route push / drill-down
+  stagger/list        = lists and feeds (40ms stagger per item)
+  celebration/subtle  = like, save, react
+  celebration/milestone = achievement, onboarding complete
+
+Full spec: https://motion-spec.dev/ai/llms.txt
+
+NEVER use: className="transition-opacity duration-300 ease-in-out"
+ALWAYS use: <Entrance intent="focus"><Dialog /></Entrance>
+```
+
+---
+
+### With Vercel v0
+
+Prepend to your v0 prompt:
+
+```
+Use motion-spec for animations (https://motion-spec.dev).
+Import from @motion-spec/react. Use intent strings not raw CSS transitions.
+Key intents: entrance/focus (modals), feedback/success (confirmations),
+stagger/list (lists), navigation/modal (overlays), celebration/subtle (reactions).
+```
+
+---
+
+### With any AI tool (generic system prompt)
+
+```
+When generating UI code, use the motion-spec animation vocabulary
+instead of raw CSS transitions or inline animation values.
+
+Spec reference: https://motion-spec.dev/ai/llms.txt
+
+React: import { Entrance, Exit, Feedback, Stagger } from "@motion-spec/react"
+CSS:   <div data-motion="entrance/focus">
+
+Map UI patterns to intents:
+  Dialog/Modal appearing  → entrance/focus
+  Toast disappearing      → exit/dismiss
+  Form submit result      → feedback/success or feedback/error
+  Page navigation         → navigation/forward or navigation/back
+  List loading            → stagger/list
+  Achievement/milestone   → celebration/milestone
+```
+
+---
+
+**Result — before vs after:**
+
 ```tsx
-// Instead of: className="transition-opacity duration-300"
+// ❌ Before: no semantic meaning, same animation for everything
+<div className="transition-opacity duration-300 ease-in-out opacity-0">
+  <Dialog />
+</div>
+
+// ✅ After: intent-driven, correct motion for the context
 <Entrance intent="focus">
   <Dialog />
 </Entrance>
@@ -184,8 +285,16 @@ motion-spec respects `prefers-reduced-motion` by default. Every intent has a red
 
 ## AI Integration
 
-- [`ai/llms.txt`](./ai/llms.txt) — Machine-readable spec summary for LLMs
-- [`ai/prompts/`](./ai/prompts/) — Prompt templates for v0, Cursor, Claude Code
+motion-spec is designed to be referenced by AI code generation tools so they produce real animations instead of `transition: all 0.3s ease`.
+
+| Tool | How to integrate | Config file |
+|------|-----------------|-------------|
+| **Claude Code** | Add the intent cheat-sheet to `CLAUDE.md` | [ai/prompts/claude-code.md](./ai/prompts/claude-code.md) |
+| **Cursor** | Add the intent rules to `.cursorrules` | [ai/prompts/cursor.md](./ai/prompts/cursor.md) |
+| **Vercel v0** | Prepend to your prompt | [ai/prompts/v0.md](./ai/prompts/v0.md) |
+| **Any LLM** | Reference `llms.txt` in your system prompt | [ai/llms.txt](./ai/llms.txt) |
+
+The `ai/llms.txt` file follows the [llms.txt standard](https://llmstxt.org) — a machine-readable summary of the full spec optimised for language model context windows.
 
 ---
 

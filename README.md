@@ -276,13 +276,64 @@ const tokens = resolveIntent("entrance/focus")
 
 ---
 
-## Why Not Just Use Framer Motion / GSAP?
+## Works With Any Animation Library
+
+motion-spec is a **semantic layer** — it sits above execution. You define intent once, it compiles to whatever runtime you use.
+
+```
+entrance/focus  →  CSS keyframes        (zero JS)
+                →  Framer Motion props  (React)
+                →  GSAP fromTo vars     (any)
+                →  Anime.js params      (any)
+                →  React Native config  (mobile)
+```
+
+### With Framer Motion
+
+```tsx
+import { motion } from "framer-motion"
+import { toFramerMotion, toFramerStagger } from "@motion-spec/adapters/framer"
+
+// Single element
+<motion.div {...toFramerMotion("entrance/focus")}>
+  <Dialog />
+</motion.div>
+
+// Stagger list
+const { containerVariants, itemVariants } = toFramerStagger("stagger/list")
+<motion.ul variants={containerVariants} initial="hidden" animate="show">
+  {items.map(i => <motion.li variants={itemVariants} />)}
+</motion.ul>
+```
+
+### With GSAP
+
+```ts
+import gsap from "gsap"
+import { toGSAPArgs, toGSAPStagger } from "@motion-spec/adapters/gsap"
+
+gsap.fromTo(".dialog",   ...toGSAPArgs("entrance/focus"))
+gsap.fromTo(".toast",    ...toGSAPArgs("feedback/success"))
+gsap.fromTo(".modal",    ...toGSAPArgs("exit/dismiss"))
+gsap.from(".list-item",  toGSAPStagger("stagger/list"))
+```
+
+### With Anime.js
+
+```ts
+import anime from "animejs"
+import { toAnime, toAnimeStagger } from "@motion-spec/adapters/anime"
+
+anime({ targets: ".dialog",    ...toAnime("entrance/focus") })
+anime({ targets: ".toast",     ...toAnime("feedback/success") })
+anime({ targets: ".feed-item", ...toAnimeStagger("stagger/list") })
+```
+
+### Why not just use Framer Motion / GSAP directly?
 
 They're execution layers. Excellent ones.
 
-motion-spec is an **intent layer** — it sits above execution and compiles down to whatever runtime you use. Like how TypeScript compiles to JavaScript, motion-spec compiles to CSS, Framer Motion, Flutter, or React Native.
-
-You choose the runtime. motion-spec provides the semantics.
+motion-spec is the **intent layer** above them — like how TypeScript compiles to JavaScript. You write `entrance/focus` once. The adapter outputs the correct props for whichever library you're using. Switch from GSAP to Framer Motion? Change one import, keep the same intent strings.
 
 ---
 

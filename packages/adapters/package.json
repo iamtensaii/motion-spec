@@ -1,0 +1,21 @@
+{
+  "name": "@motion-spec/adapters",
+  "version": "0.1.0",
+  "description": "motion-spec adapters — translate semantic intents into Framer Motion, GSAP, Anime.js, and more",
+  "main": "./src/index.ts",
+  "exports": {
+    ".":              "./src/index.ts",
+    "./framer":       "./src/framer.ts",
+    "./gsap":         "./src/gsap.ts",
+    "./anime":        "./src/anime.ts",
+    "./react-native": "./src/react-native.ts",
+    "./css-vars":     "./src/css-vars.ts"
+  },
+  "dependencies": {
+    "@motion-spec/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "license": "MIT"
+}

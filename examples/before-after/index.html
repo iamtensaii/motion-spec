@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>motion-spec — Before / After (Zero Dependencies)</title>
+  <style>
+    /* ─── Reset ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #09090b; color: #fafafa; font-family: system-ui, sans-serif; padding: 48px 24px; }
+
+    /* ─── Layout ─────────────────────────────────────── */
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { color: #71717a; margin-bottom: 48px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+    .panel { background: #18181b; border: 1px solid #27272a; border-radius: 16px; overflow: hidden; }
+    .panel-header { padding: 12px 20px; border-bottom: 1px solid #27272a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .panel-body { padding: 32px 20px; display: flex; align-items: center; justify-content: center; min-height: 180px; }
+    .card { background: #27272a; border: 1px solid #3f3f46; border-radius: 12px; padding: 20px; width: 200px; }
+    .card-line { height: 10px; background: #52525b; border-radius: 4px; margin-bottom: 8px; }
+    .label { font-size: 11px; font-family: monospace; padding: 12px 20px; color: #52525b; border-top: 1px solid #27272a; }
+    .label.good { color: #818cf8; }
+    button { background: #6366f1; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; font-size: 14px; margin-right: 8px; }
+    button:hover { background: #818cf8; }
+    .controls { margin-bottom: 24px; }
+    .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #52525b; margin-bottom: 12px; margin-top: 40px; }
+
+    /* ─── "Without" — flat 0.3s ease ────────────────── */
+    .without-anim {
+      animation: flatFade 300ms ease both;
+    }
+    @keyframes flatFade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ─── motion-spec CSS (inline for self-contained demo) ── */
+    @keyframes ms-entrance-focus {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes ms-feedback-success {
+      0%   { opacity: 0; transform: scale(0.9); }
+      60%  { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes ms-feedback-error {
+      0%, 100% { transform: translateX(0); }
+      20%  { transform: translateX(-6px); }
+      40%  { transform: translateX(6px); }
+      60%  { transform: translateX(-4px); }
+      80%  { transform: translateX(4px); }
+    }
+    @keyframes ms-stagger-item {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    [data-motion="entrance/focus"]    { animation: ms-entrance-focus    350ms cubic-bezier(0,0,0.2,1) both; }
+    [data-motion="feedback/success"]  { animation: ms-feedback-success  500ms cubic-bezier(0.34,1.56,0.64,1) both; }
+    [data-motion="feedback/error"]    { animation: ms-feedback-error    250ms cubic-bezier(0.34,1.56,0.64,1) both; }
+    .stagger-item                     { animation: ms-stagger-item 250ms cubic-bezier(0,0,0.2,1) both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-motion], .stagger-item { animation-duration: 150ms !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div data-motion="entrance/focus">
+    <h1>Before / After</h1>
+    <p class="subtitle">Zero dependencies. Pure HTML + CSS. Click each button to replay.</p>
+  </div>
+
+  <!-- Dialog entrance -->
+  <p class="section-title">Dialog / Modal entrance</p>
+  <div class="controls">
+    <button onclick="replay('without-dialog', 'dialog-without')">Replay Without</button>
+    <button onclick="replay('with-dialog', 'dialog-with')">Replay With</button>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-header" style="color:#f87171">Without motion-spec</div>
+      <div class="panel-body" id="dialog-without">
+        <div class="card without-anim">
+          <div class="card-line" style="width:60%"></div>
+          <div class="card-line"></div>
+          <div class="card-line" style="width:80%"></div>
+        </div>
+      </div>
+      <div class="label">opacity: 0→1 · 300ms ease · no spatial cue</div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="color:#818cf8">With motion-spec</div>
+      <div class="panel-body" id="dialog-with">
+        <div class="card" data-motion="entrance/focus">
+          <div class="card-line" style="width:60%"></div>
+          <div class="card-line"></div>
+          <div class="card-line" style="width:80%"></div>
+        </div>
+      </div>
+      <div class="label good">intent="entrance/focus" · scale + translateY + fade · 350ms</div>
+    </div>
+  </div>
+
+  <!-- Success feedback -->
+  <p class="section-title">Success / Error feedback</p>
+  <div class="controls">
+    <button onclick="replay('without-success', 'success-without')">Replay Without</button>
+    <button onclick="replay('with-success', 'success-with')">Replay With (success)</button>
+    <button onclick="replay('with-error', 'error-with')">Replay With (error)</button>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-header" style="color:#f87171">Without</div>
+      <div class="panel-body" id="success-without">
+        <div class="card without-anim" style="background:#14532d;border-color:#16a34a;text-align:center;padding:24px;">
+          ✓ Payment complete
+        </div>
+      </div>
+      <div class="label">opacity fade · nothing feels different from any other animation</div>
+    </div>
+    <div class="panel" id="success-with">
+      <div class="panel-header" style="color:#818cf8">With motion-spec</div>
+      <div class="panel-body" id="error-with">
+        <div class="card" data-motion="feedback/success" style="background:#14532d;border-color:#16a34a;text-align:center;padding:24px;">
+          ✓ Payment complete
+        </div>
+      </div>
+      <div class="label good">intent="feedback/success" · spring scale(0.9→1.05→1) · feels earned</div>
+    </div>
+  </div>
+
+  <!-- Stagger -->
+  <p class="section-title">List / Feed loading</p>
+  <div class="controls">
+    <button onclick="replayStagger()">Replay Both</button>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <div class="panel-header" style="color:#f87171">Without — all at once</div>
+      <div class="panel-body" style="flex-direction:column;gap:8px;align-items:stretch;" id="stagger-without">
+        <div class="card without-anim" style="width:100%"><div class="card-line" style="width:70%"></div></div>
+        <div class="card without-anim" style="width:100%"><div class="card-line" style="width:85%"></div></div>
+        <div class="card without-anim" style="width:100%"><div class="card-line" style="width:60%"></div></div>
+      </div>
+      <div class="label">wall of content appearing simultaneously</div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="color:#818cf8">With motion-spec — stagger/list</div>
+      <div class="panel-body" style="flex-direction:column;gap:8px;align-items:stretch;" id="stagger-with">
+        <div class="card stagger-item" style="width:100%;--stagger-delay:0ms"><div class="card-line" style="width:70%"></div></div>
+        <div class="card stagger-item" style="width:100%;animation-delay:40ms"><div class="card-line" style="width:85%"></div></div>
+        <div class="card stagger-item" style="width:100%;animation-delay:80ms"><div class="card-line" style="width:60%"></div></div>
+      </div>
+      <div class="label good">40ms cascade — items have individual arrival, not mass appearance</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function replay(animClass, containerId) {
+  const container = document.getElementById(containerId)
+  const els = container.querySelectorAll('.card')
+  els.forEach(el => {
+    const dataMotion = el.getAttribute('data-motion')
+    el.removeAttribute('data-motion')
+    el.classList.remove('without-anim', 'stagger-item')
+    void el.offsetHeight
+    if (dataMotion) el.setAttribute('data-motion', dataMotion)
+    else if (animClass === 'without-dialog' || animClass === 'without-success') el.classList.add('without-anim')
+  })
+}
+
+function replayStagger() {
+  ['stagger-without', 'stagger-with'].forEach(id => {
+    const container = document.getElementById(id)
+    const cards = container.querySelectorAll('.card')
+    cards.forEach(card => {
+      const isStagger = card.classList.contains('stagger-item')
+      const delay = card.style.animationDelay
+      card.classList.remove('without-anim', 'stagger-item')
+      void card.offsetHeight
+      if (isStagger) { card.classList.add('stagger-item'); card.style.animationDelay = delay }
+      else card.classList.add('without-anim')
+    })
+  })
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+/*
+ * motion-spec v1 — CSS keyframes
+ * https://motion-spec.dev
+ *
+ * Usage:
+ *   @import "@motion-spec/css";
+ *   <div data-motion="entrance/focus">...</div>
+ *
+ * All animations respect prefers-reduced-motion automatically.
+ */
+
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+
+:root {
+  --ms-duration-immediate:  100ms;
+  --ms-duration-fast:       150ms;
+  --ms-duration-normal:     250ms;
+  --ms-duration-deliberate: 350ms;
+  --ms-duration-slow:       500ms;
+  --ms-duration-cinematic:  700ms;
+
+  --ms-ease-arrive:    cubic-bezier(0.0, 0.0, 0.2, 1.0);
+  --ms-ease-depart:    cubic-bezier(0.4, 0.0, 1.0, 1.0);
+  --ms-ease-move:      cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --ms-ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1.0);
+  --ms-ease-linear:    linear;
+}
+
+/* ── Keyframes ────────────────────────────────────────────────────────────── */
+
+@keyframes ms-entrance-default {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ms-entrance-focus {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ms-entrance-hero {
+  from { opacity: 0; transform: translateY(24px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ms-entrance-subtle {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ms-entrance-immediate {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes ms-exit-default {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes ms-exit-dismiss {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+@keyframes ms-exit-replace {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-24px); }
+}
+@keyframes ms-exit-immediate {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes ms-feedback-success {
+  0%   { opacity: 0; transform: scale(0.9); }
+  60%  { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes ms-feedback-error {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+@keyframes ms-feedback-warning {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ms-feedback-confirm {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(0.94); }
+}
+@keyframes ms-feedback-loading {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes ms-navigation-forward {
+  from { opacity: 0; transform: translateX(30%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes ms-navigation-back {
+  from { opacity: 0; transform: translateX(-30%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes ms-navigation-lateral {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ms-navigation-modal {
+  from { opacity: 0; transform: translateY(32px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ms-navigation-dismiss {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(48px); }
+}
+
+@keyframes ms-stagger-item {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ms-loading-skeleton {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+@keyframes ms-loading-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+@keyframes ms-loading-spinner {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ms-celebration-milestone {
+  0%   { opacity: 0; transform: scale(0.5); }
+  70%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes ms-celebration-reward {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes ms-celebration-subtle {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+
+/* ── Utility class bindings ───────────────────────────────────────────────── */
+
+[data-motion="entrance/default"],  .ms-entrance-default  { animation: ms-entrance-default  var(--ms-duration-normal,     250ms) var(--ms-ease-arrive,    cubic-bezier(0,0,0.2,1)) both; }
+[data-motion="entrance/focus"],    .ms-entrance-focus    { animation: ms-entrance-focus    var(--ms-duration-deliberate, 350ms) var(--ms-ease-arrive,    cubic-bezier(0,0,0.2,1)) both; }
+[data-motion="entrance/hero"],     .ms-entrance-hero     { animation: ms-entrance-hero     var(--ms-duration-cinematic,  700ms) var(--ms-ease-arrive,    cubic-bezier(0,0,0.2,1)) both; }
+[data-motion="entrance/subtle"],   .ms-entrance-subtle   { animation: ms-entrance-subtle   var(--ms-duration-fast,       150ms) var(--ms-ease-arrive,    cubic-bezier(0,0,0.2,1)) both; }
+[data-motion="entrance/immediate"],.ms-entrance-immediate{ animation: ms-entrance-immediate var(--ms-duration-immediate,  100ms) var(--ms-ease-arrive,    cubic-bezier(0,0,0.2,1)) both; }
+
+[data-motion="exit/default"],      .ms-exit-default      { animation: ms-exit-default      var(--ms-duration-fast,       150ms) var(--ms-ease-depart,   cubic-bezier(0.4,0,1,1))   both; }
+[data-motion="exit/dismiss"],      .ms-exit-dismiss      { animation: ms-exit-dismiss      var(--ms-duration-normal,     250ms) var(--ms-ease-depart,   cubic-bezier(0.4,0,1,1))   both; }
+[data-motion="exit/replace"],      .ms-exit-replace      { animation: ms-exit-replace      var(--ms-duration-deliberate, 350ms) var(--ms-ease-move,     cubic-bezier(0.4,0,0.2,1)) both; }
+[data-motion="exit/immediate"],    .ms-exit-immediate    { animation: ms-exit-immediate    var(--ms-duration-immediate,  100ms) var(--ms-ease-linear,   linear)                    both; }
+
+[data-motion="feedback/success"],  .ms-feedback-success  { animation: ms-feedback-success  var(--ms-duration-slow,       500ms) var(--ms-ease-overshoot,cubic-bezier(0.34,1.56,0.64,1)) both; }
+[data-motion="feedback/error"],    .ms-feedback-error    { animation: ms-feedback-error    var(--ms-duration-normal,     250ms) var(--ms-ease-overshoot,cubic-bezier(0.34,1.56,0.64,1)) both; }
+[data-motion="feedback/warning"],  .ms-feedback-warning  { animation: ms-feedback-warning  var(--ms-duration-deliberate, 350ms) var(--ms-ease-arrive,   cubic-bezier(0,0,0.2,1))        both; }
+[data-motion="feedback/confirm"],  .ms-feedback-confirm  { animation: ms-feedback-confirm  var(--ms-duration-fast,       150ms) var(--ms-ease-overshoot,cubic-bezier(0.34,1.56,0.64,1)) both; }
+[data-motion="feedback/loading"],  .ms-feedback-loading  { animation: ms-feedback-loading  1200ms                               var(--ms-ease-linear, linear) infinite; }
+
+[data-motion="navigation/forward"],.ms-navigation-forward{ animation: ms-navigation-forward  var(--ms-duration-deliberate,350ms) var(--ms-ease-move,cubic-bezier(0.4,0,0.2,1)) both; }
+[data-motion="navigation/back"],   .ms-navigation-back   { animation: ms-navigation-back     var(--ms-duration-deliberate,350ms) var(--ms-ease-move,cubic-bezier(0.4,0,0.2,1)) both; }
+[data-motion="navigation/lateral"],.ms-navigation-lateral{ animation: ms-navigation-lateral  var(--ms-duration-normal,    250ms) var(--ms-ease-move,cubic-bezier(0.4,0,0.2,1)) both; }
+[data-motion="navigation/modal"],  .ms-navigation-modal  { animation: ms-navigation-modal    var(--ms-duration-deliberate,350ms) var(--ms-ease-arrive,cubic-bezier(0,0,0.2,1))  both; }
+[data-motion="navigation/dismiss"],.ms-navigation-dismiss{ animation: ms-navigation-dismiss  var(--ms-duration-normal,    250ms) var(--ms-ease-depart,cubic-bezier(0.4,0,1,1))  both; }
+
+.ms-stagger-item { animation: ms-stagger-item var(--ms-duration-normal, 250ms) var(--ms-ease-arrive, cubic-bezier(0,0,0.2,1)) both var(--ms-stagger-delay, 0ms); }
+
+[data-motion="loading/skeleton"], .ms-loading-skeleton { animation: ms-loading-skeleton 2000ms linear infinite; }
+[data-motion="loading/pulse"],    .ms-loading-pulse    { animation: ms-loading-pulse    1500ms linear infinite; }
+[data-motion="loading/spinner"],  .ms-loading-spinner  { animation: ms-loading-spinner  800ms  linear infinite; }
+
+[data-motion="celebration/milestone"],.ms-celebration-milestone { animation: ms-celebration-milestone var(--ms-duration-cinematic, 700ms) var(--ms-ease-overshoot,cubic-bezier(0.34,1.56,0.64,1)) both; }
+[data-motion="celebration/reward"],   .ms-celebration-reward    { animation: ms-celebration-reward    var(--ms-duration-slow,      500ms) var(--ms-ease-overshoot,cubic-bezier(0.34,1.56,0.64,1)) both; }
+[data-motion="celebration/subtle"],   .ms-celebration-subtle    { animation: ms-celebration-subtle    var(--ms-duration-fast,      150ms) var(--ms-ease-overshoot,cubic-bezier(0.34,1.56,0.64,1)) both; }
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-motion], [class^="ms-"] {
+    animation-duration: 150ms !important;
+    animation-iteration-count: 1 !important;
+    transform: none !important;
+  }
+  @keyframes ms-reduced {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  [data-motion]:not([data-motion*="exit"]):not([data-motion*="dismiss"]) {
+    animation-name: ms-reduced !important;
+  }
+}

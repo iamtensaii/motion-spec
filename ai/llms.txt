@@ -1,0 +1,120 @@
+# motion-spec — Machine-Readable Spec Summary
+# Version: 1.0.0
+# URL: https://motion-spec.dev
+# For AI code generation tools (Claude Code, Cursor, v0, Lovable, Copilot)
+
+## What is motion-spec?
+
+motion-spec is an open semantic animation specification for the web.
+It defines INTENT (the why) rather than VALUES (the how).
+W3C DTCG defines duration/easing tokens. motion-spec defines what those tokens MEAN.
+
+## How to use in generated code
+
+When generating animations, use motion-spec intent strings instead of raw CSS classes or inline durations.
+
+### React usage
+```tsx
+import { Entrance, Exit, Feedback, Stagger, Celebration } from "@motion-spec/react"
+
+// Element entering a space
+<Entrance intent="focus"><Dialog /></Entrance>
+
+// Element leaving
+<Exit intent="dismiss"><Toast /></Exit>
+
+// Response to user action
+<Feedback intent="success"><ConfirmBanner /></Feedback>
+<Feedback intent="error"><ErrorMessage /></Feedback>
+
+// Group choreography
+<Stagger intent="list">
+  {items.map(item => <Card key={item.id} />)}
+</Stagger>
+
+// Significant moment
+<Celebration intent="milestone"><OnboardingDone /></Celebration>
+```
+
+### CSS usage (zero JS)
+```html
+<link rel="stylesheet" href="node_modules/@motion-spec/css/dist/motion-spec.css">
+<div data-motion="entrance/focus">...</div>
+<ul>
+  <li class="ms-stagger-item" style="--ms-stagger-delay: 0ms">...</li>
+  <li class="ms-stagger-item" style="--ms-stagger-delay: 40ms">...</li>
+</ul>
+```
+
+## Complete Intent Reference
+
+### ENTRANCE — element arriving in a space
+- entrance/default    → standard mount, 250ms ease-out, translateY(8px→0) + fade
+- entrance/focus      → demands attention (dialog, alert), 350ms, scale + translateY + fade
+- entrance/hero       → large-scale arrival (landing sections), 700ms, deeper scale + translateY
+- entrance/subtle     → quiet arrival (tooltips, sidebars), 150ms, small translateY + fade
+- entrance/immediate  → near-instant (critical info), 100ms, fade only
+
+### EXIT — element leaving a space
+- exit/default        → standard unmount, 150ms ease-in, translateY(0→-8px) + fade
+- exit/dismiss        → user-initiated (close toast), 250ms, scale(1→0.95) + fade
+- exit/replace        → leaving for new content, 350ms, translateX(0→-24px) + fade
+- exit/immediate      → urgent removal, 100ms, fade only
+
+### FEEDBACK — response to user action
+- feedback/success    → positive outcome (payment done), 500ms spring, scale(0.9→1.05→1)
+- feedback/error      → something went wrong, 250ms, horizontal shake
+- feedback/warning    → caution needed, 350ms, translateY(4px→0) + fade
+- feedback/loading    → work in progress, 1200ms loop
+- feedback/confirm    → action registered (button press), 150ms spring, scale(1→0.94→1)
+
+### NAVIGATION — moving between views
+- navigation/forward  → deeper into hierarchy, 350ms, translateX(30%→0) + fade
+- navigation/back     → returning up hierarchy, 350ms, translateX(-30%→0) + fade
+- navigation/lateral  → between siblings (tabs), 250ms, fade
+- navigation/modal    → opening overlay (sheet, dialog), 350ms, translateY(32px→0) + scale
+- navigation/dismiss  → closing overlay, 250ms, translateY(0→48px) + fade
+
+### STAGGER — group choreography
+- stagger/list        → feed/inbox items, 40ms delay per item
+- stagger/grid        → card gallery, 30ms delay per item
+- stagger/cascade     → parent-led (menus, accordions), 60ms delay per item
+- stagger/random      → organic feel (portfolios), 80ms delay per item
+
+### LOADING — pending state
+- loading/skeleton    → content placeholder, 2000ms shimmer loop
+- loading/spinner     → indeterminate activity, 800ms rotation loop
+- loading/progress    → determinate progress, 300ms ease-out
+- loading/pulse       → live data indicator, 1500ms opacity loop
+
+### CELEBRATION — significant moments
+- celebration/milestone → major achievement (onboarding done), 700ms spring, scale(0.5→1.1→1)
+- celebration/reward    → positive reinforcement (badge, streak), 500ms spring, scale(0.8→1.15→1)
+- celebration/subtle    → quiet delight (like, bookmark), 150ms spring, scale(1→1.08→1)
+
+## Reduced Motion
+
+All intents automatically degrade when prefers-reduced-motion: reduce is active.
+- Transforms are removed
+- Durations capped at 150ms
+- Loops play once then stop
+No configuration needed. Accessibility is built in.
+
+## When NOT to use motion-spec
+
+- Scroll-linked animations (use CSS scroll-timeline or Framer Motion's useScroll)
+- Physics simulations (dragging, inertia) — use Framer Motion drag or React Spring
+- Video/canvas animations — use Three.js or GSAP
+- Micro-interactions under 50ms (hover color, focus ring) — use CSS transitions directly
+
+## Install
+
+npm install @motion-spec/tokens @motion-spec/react
+# or for CSS only:
+npm install @motion-spec/css
+
+## Spec source
+
+- Vocabulary: https://github.com/[owner]/motion-spec/blob/main/spec/v1/vocabulary.md
+- Tokens: https://github.com/[owner]/motion-spec/blob/main/spec/v1/tokens.json
+- Schema: https://github.com/[owner]/motion-spec/blob/main/spec/v1/schema.json

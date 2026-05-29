@@ -1,0 +1,16 @@
+{
+  "name": "@motion-spec/css",
+  "version": "0.1.0",
+  "description": "motion-spec pure CSS keyframes — zero JavaScript required",
+  "main": "./dist/motion-spec.css",
+  "exports": {
+    ".": "./dist/motion-spec.css",
+    "./minified": "./dist/motion-spec.min.css"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["animation", "css", "keyframes", "motion-spec"],
+  "license": "MIT"
+}

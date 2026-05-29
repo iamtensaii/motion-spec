@@ -1,0 +1,35 @@
+{
+  "name": "@motion-spec/react",
+  "version": "0.1.0",
+  "description": "motion-spec React components — copy-paste, Shadcn-compatible",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --external react",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch --external react",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "dependencies": {
+    "@motion-spec/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  },
+  "keywords": ["animation", "motion", "react", "motion-spec"],
+  "license": "MIT"
+}

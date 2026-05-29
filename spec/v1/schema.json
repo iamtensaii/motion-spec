@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://motion-spec.dev/schema/v1",
+  "title": "motion-spec Intent",
+  "description": "JSON Schema for validating a motion-spec intent string",
+  "type": "object",
+
+  "definitions": {
+    "entranceIntent": {
+      "type": "string",
+      "enum": ["entrance/default", "entrance/focus", "entrance/hero", "entrance/subtle", "entrance/immediate"]
+    },
+    "exitIntent": {
+      "type": "string",
+      "enum": ["exit/default", "exit/dismiss", "exit/replace", "exit/immediate"]
+    },
+    "feedbackIntent": {
+      "type": "string",
+      "enum": ["feedback/success", "feedback/error", "feedback/warning", "feedback/loading", "feedback/confirm"]
+    },
+    "navigationIntent": {
+      "type": "string",
+      "enum": ["navigation/forward", "navigation/back", "navigation/lateral", "navigation/modal", "navigation/dismiss"]
+    },
+    "staggerIntent": {
+      "type": "string",
+      "enum": ["stagger/list", "stagger/grid", "stagger/cascade", "stagger/random"]
+    },
+    "loadingIntent": {
+      "type": "string",
+      "enum": ["loading/skeleton", "loading/spinner", "loading/progress", "loading/pulse"]
+    },
+    "celebrationIntent": {
+      "type": "string",
+      "enum": ["celebration/milestone", "celebration/reward", "celebration/subtle"]
+    },
+    "anyIntent": {
+      "oneOf": [
+        { "$ref": "#/definitions/entranceIntent" },
+        { "$ref": "#/definitions/exitIntent" },
+        { "$ref": "#/definitions/feedbackIntent" },
+        { "$ref": "#/definitions/navigationIntent" },
+        { "$ref": "#/definitions/staggerIntent" },
+        { "$ref": "#/definitions/loadingIntent" },
+        { "$ref": "#/definitions/celebrationIntent" }
+      ]
+    }
+  },
+
+  "properties": {
+    "intent": {
+      "$ref": "#/definitions/anyIntent",
+      "description": "The semantic animation intent"
+    },
+    "reducedMotion": {
+      "type": "string",
+      "enum": ["auto", "force-reduce", "force-full"],
+      "default": "auto",
+      "description": "Override reduced motion behaviour"
+    },
+    "delay": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Additional delay in milliseconds before the animation starts"
+    },
+    "duration": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Override the spec duration in milliseconds"
+    }
+  },
+  "required": ["intent"]
+}
